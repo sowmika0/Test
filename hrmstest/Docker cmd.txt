@@ -1,0 +1,83 @@
+Docker with Ubuntu
+
+apt-get update - to update the ubuntu
+apt install docker.io - To install the docker
+docker images - to view the images
+docker --version - To check the docker version
+docker pull {image name} - To load the images from docker Hub
+docker run -itd -p "new port name : default Port Name" {image name} - To run the app in the docker container
+docker ps - To list the containers
+docker exec -it {container id} /bin/bash - To move the inside the container 
+apt install vim - Inside the container install the application
+docker stop {container Id} - To stop the container
+docker ps -a - To list include the stop container
+docker start {container Id} - To start the container
+docker rm {container Id} - To remove the container 
+docker rm -f {container Id} - To remove the container with force 
+docker rmi {image id} - To remove the image
+docker rm {container Id} {container Id} - To Delete the multiple container single time
+docker commit {container id} {Image Name} - Convert Container to Image file
+docker save -o {working directory/filename.tar} {image name} - Save the image as a file, Docker Image file will save as .zip / .tar -o (Output file)
+docker load -i {saved image file name} - to extract the saved image file again as image
+docker login - To login the remote repository from the current prompt
+docker tag {old image name} {new Image name} - To create the new name to the docker image
+docker push {accountname/Imagename} - To push the image to remote repository
+
+Docker File - Written Instruction to create a customized image
+File Name - Dockerfile - There is no extension in the docker file & it is always need to return in the name "Dockerfile"
+
+docker build -t {image name}:{version name } {docker file path} - -t - tags
+
+d -> detached mode/background mode
+i -> input / intractive mode
+t -> Terminal 
+
+docker logs {Container ID} - to check the container log
+
+ENTRYPOINT - the code will get executed when run the docker run command
+
+Task - Docker file COPY Vs ADD?
+COPY - Its helps to copy the file from local from host.
+ADD  - Its also handle the Src and destination file copying and extract the tar/zip files
+-------
+Task - Docker ENTRYPOINT vs CMD?
+CMD - If dockerfiles have multiple command instruction, it takes only the last one
+ENTRYPOINT - It is executable when container run.
+-----
+Task - Docker file LABEL vs MAINTAINER
+LABEL - label instruction to define the author of the generated images and more flexible to view in the docker inspect.
+MAINTAINER - The maintainer instruction is depreciated by docker
+
+docker container prune - To remove all the stopped containers
+Volume
+Create the docker container with volume
+---------------------------------------
+docker run -itd -p {machine port no:container portno} --name "{container name}" -v "{machine path:containerpath}" {image name}
+
+Volumes + Container Access
+--------------------------
+docker run -itd -p "80:80" --name "Webserver" -v "/usr/local/apache2/logs" httpd - In this container creation with container volume
+docker run -itd -p "2020:22" --name "contaccess" --volumes-from Webserver:ro contaccess - This container copy the webserver logs file with read only mode
+
+Architecture in the Implementation
+---------------------------------
+Monolithic 
+Micro Service
+Serverless
+
+Container to Container Access
+-----------------------------
+
+Old method name is LINK
+			------
+docker run -itd --name "db" -e "MYSQL_ROOT_PASSWORD=root123" {image name} - Create the container with environment variables
+
+docker run -itd --name "webserver" --link db:mysql -p "80:80" wordpress - Using the link command to connect one container to another container
+
+Network
+docker network ls - to list the available network details
+
+docker inspect {network id} - to view the network details
+
+
+Docker Compose - It is the utility , it helps to create the multiple container
